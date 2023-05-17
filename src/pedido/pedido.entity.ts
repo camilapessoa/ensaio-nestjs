@@ -5,8 +5,10 @@ import {
   UpdateDateColumn,
   DeleteDateColumn,
   PrimaryGeneratedColumn,
+  ManyToOne,
 } from 'typeorm';
 import { StatusPedido } from './enum/statuspedido.enum';
+import { UsuarioEntity } from '../usuario/usuario.entity';
 
 @Entity({ name: 'pedidos' })
 export class PedidoEntity {
@@ -14,10 +16,10 @@ export class PedidoEntity {
   id: string;
 
   @Column({ name: 'valor_total', nullable: false })
-  valorTotal: string; //padrão js
+  valorTotal: string;
 
   @Column({ name: 'status', enum: StatusPedido, nullable: false })
-  status: StatusPedido; //criar enum separadamente
+  status: StatusPedido;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: string;
@@ -27,4 +29,7 @@ export class PedidoEntity {
 
   @DeleteDateColumn({ name: 'deleted_at' })
   deletedAt: string;
+
+  @ManyToOne(() => UsuarioEntity, (usuario) => usuario.pedidos)
+  usuario: UsuarioEntity
 }
