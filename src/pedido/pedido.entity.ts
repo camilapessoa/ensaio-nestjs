@@ -16,7 +16,7 @@ export class PedidoEntity {
   id: string;
 
   @Column({ name: 'valor_total', nullable: false })
-  valorTotal: string;
+  valorTotal: number;
 
   @Column({ name: 'status', enum: StatusPedido, nullable: false })
   status: StatusPedido;
