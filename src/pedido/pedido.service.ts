@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { CreatePedidoDto } from './dto/create-pedido.dto';
+import { CriaPedidoDTO } from './dto/CriaPedido.dto';
 import { UpdatePedidoDto } from './dto/update-pedido.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PedidoEntity } from './pedido.entity';
@@ -27,15 +27,22 @@ export class PedidoService {
     return pedidoCriado
   }
 
+  async obtemPedidosDeUsuario(usuarioId: string) {
+    return this.pedidoRepository.find({
+      where: {
+        usuario: { id: usuarioId },
+      },
+      relations: {
+        usuario: true,
+      },
+    });
+  }
 
 
   findAll() {
     return `This action returns all pedido`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} pedido`;
-  }
 
   update(id: number, updatePedidoDto: UpdatePedidoDto) {
     return `This action updates a #${id} pedido`;
