@@ -6,6 +6,7 @@ import { PedidoEntity } from './pedido.entity';
 import { Repository } from 'typeorm';
 import { UsuarioEntity } from '../usuario/usuario.entity';
 import { StatusPedido } from './enum/statuspedido.enum';
+import { ItemPedidoEntity } from './itemPedido.entity';
 
 @Injectable()
 export class PedidoService {
@@ -15,13 +16,30 @@ export class PedidoService {
     @InjectRepository(UsuarioEntity)
     private readonly usuarioRepository: Repository<UsuarioEntity>,
   ) { }
-  async cadastraPedido(usuarioId: string,) {
+  async cadastraPedido(usuarioId: string, dadosDoPedido: CriaPedidoDTO) {
     const usuario = await this.usuarioRepository.findOneBy({ id: usuarioId })//sem essa busca, não há como estabelecer o relacionamento
     const pedidoEntity = new PedidoEntity();
-
-    pedidoEntity.valorTotal = 0
     pedidoEntity.status = StatusPedido.EM_PROCESSAMENTO
     pedidoEntity.usuario = usuario
+
+    let valorTotal = 0;
+
+    const itensPedidoEntidades = dadosDoPedido.itensPedido.map((itemPedido) => {
+      const itemPedidoEntity = new ItemPedidoEntity();
+
+      itemPedidoEntity.precoVenda = 10;
+      itemPedidoEntity.quantidade = itemPedido.quantidade;
+
+      valorTotal += itemPedidoEntity.precoVenda * itemPedido.quantidade
+
+      return itemPedidoEntity;
+
+    })
+
+    pedidoEntity.valorTotal = valorTotal
+    pedidoEntity.itensPedido = itensPedidoEntidades
+
+
     const pedidoCriado = await this.pedidoRepository.save(pedidoEntity)
 
     return pedidoCriado

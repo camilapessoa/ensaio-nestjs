@@ -10,9 +10,11 @@ export class PedidoController {
   @Post()
   async criaPedido(
     @Query('usuarioId') usuarioId: string,
+    @Body() dadosDoPedido: CriaPedidoDTO,
   ) {
     const pedidoCriado = await this.pedidoService.cadastraPedido(
-      usuarioId
+      usuarioId,
+      dadosDoPedido,
     )
     return pedidoCriado
   }
