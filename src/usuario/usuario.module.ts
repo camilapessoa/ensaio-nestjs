@@ -10,4 +10,4 @@ import { UsuarioEntity } from './usuario.entity';
   controllers: [UsuarioController],
   providers: [UsuarioService, EmailEhUnicoValidator],
 })
-export class UsuarioModule { }
+export class UsuarioModule {}

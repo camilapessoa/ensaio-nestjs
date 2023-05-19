@@ -1,11 +1,20 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Query,
+} from '@nestjs/common';
 import { PedidoService } from './pedido.service';
 import { CriaPedidoDTO } from './dto/CriaPedido.dto';
-import { UpdatePedidoDto } from './dto/update-pedido.dto';
+import { AtualizaPedidoDTO } from './dto/AtualizaPedido.dto';
 
 @Controller('pedidos')
 export class PedidoController {
-  constructor(private readonly pedidoService: PedidoService) { }
+  constructor(private readonly pedidoService: PedidoService) {}
 
   @Post()
   async criaPedido(
@@ -15,16 +24,13 @@ export class PedidoController {
     const pedidoCriado = await this.pedidoService.cadastraPedido(
       usuarioId,
       dadosDoPedido,
-    )
-    return pedidoCriado
+    );
+    return pedidoCriado;
   }
-  ;
-
   @Get()
   async obtemPedidosDeUsuario(@Query('usuarioId') usuarioId: string) {
     const pedidos = await this.pedidoService.obtemPedidosDeUsuario(usuarioId);
 
     return pedidos;
   }
-
 }

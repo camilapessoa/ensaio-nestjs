@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { CriaPedidoDTO } from './dto/CriaPedido.dto';
-import { UpdatePedidoDto } from './dto/update-pedido.dto';
+import { AtualizaPedidoDTO } from './dto/AtualizaPedido.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PedidoEntity } from './pedido.entity';
 import { Repository } from 'typeorm';
@@ -15,12 +15,12 @@ export class PedidoService {
     private readonly pedidoRepository: Repository<PedidoEntity>,
     @InjectRepository(UsuarioEntity)
     private readonly usuarioRepository: Repository<UsuarioEntity>,
-  ) { }
+  ) {}
   async cadastraPedido(usuarioId: string, dadosDoPedido: CriaPedidoDTO) {
-    const usuario = await this.usuarioRepository.findOneBy({ id: usuarioId })//sem essa busca, não há como estabelecer o relacionamento
+    const usuario = await this.usuarioRepository.findOneBy({ id: usuarioId }); //sem essa busca, não há como estabelecer o relacionamento
     const pedidoEntity = new PedidoEntity();
-    pedidoEntity.status = StatusPedido.EM_PROCESSAMENTO
-    pedidoEntity.usuario = usuario
+    pedidoEntity.status = StatusPedido.EM_PROCESSAMENTO;
+    pedidoEntity.usuario = usuario;
 
     // let valorTotal = 0;
 
@@ -33,20 +33,18 @@ export class PedidoService {
       // valorTotal += itemPedidoEntity.precoVenda * itemPedido.quantidade
 
       return itemPedidoEntity;
-
-    })
+    });
 
     const valorTotal = itensPedidoEntidades.reduce((total, itemPedido) => {
-      return total + itemPedido.precoVenda * itemPedido.quantidade
-    }, 0)
+      return total + itemPedido.precoVenda * itemPedido.quantidade;
+    }, 0);
 
-    pedidoEntity.valorTotal = valorTotal
-    pedidoEntity.itensPedido = itensPedidoEntidades
+    pedidoEntity.valorTotal = valorTotal;
+    pedidoEntity.itensPedido = itensPedidoEntidades;
 
+    const pedidoCriado = await this.pedidoRepository.save(pedidoEntity);
 
-    const pedidoCriado = await this.pedidoRepository.save(pedidoEntity)
-
-    return pedidoCriado
+    return pedidoCriado;
   }
 
   async obtemPedidosDeUsuario(usuarioId: string) {
@@ -60,13 +58,11 @@ export class PedidoService {
     });
   }
 
-
   findAll() {
     return `This action returns all pedido`;
   }
 
-
-  update(id: number, updatePedidoDto: UpdatePedidoDto) {
+  update(id: number, _AtualizaPedidoDTO: AtualizaPedidoDTO) {
     return `This action updates a #${id} pedido`;
   }
 

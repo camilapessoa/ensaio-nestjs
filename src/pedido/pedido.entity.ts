@@ -33,10 +33,10 @@ export class PedidoEntity {
   deletedAt: string;
 
   @ManyToOne(() => UsuarioEntity, (usuario) => usuario.pedidos)
-  usuario: UsuarioEntity
+  usuario: UsuarioEntity;
 
   @OneToMany(() => ItemPedidoEntity, (ItemPedido) => ItemPedido.pedido, {
     cascade: true,
   })
-  itensPedido: ItemPedidoEntity[]
+  itensPedido: ItemPedidoEntity[];
 }

@@ -33,6 +33,5 @@ export class UsuarioEntity {
   deletedAt: string;
 
   @OneToMany(() => PedidoEntity, (pedido) => pedido.usuario)
-  pedidos: PedidoEntity[]
-
+  pedidos: PedidoEntity[];
 }

@@ -21,4 +21,4 @@ import { PedidoModule } from './pedido/pedido.module';
     }),
   ],
 })
-export class AppModule { }
+export class AppModule {}
