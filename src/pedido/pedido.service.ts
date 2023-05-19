@@ -22,7 +22,7 @@ export class PedidoService {
     pedidoEntity.status = StatusPedido.EM_PROCESSAMENTO
     pedidoEntity.usuario = usuario
 
-    let valorTotal = 0;
+    // let valorTotal = 0;
 
     const itensPedidoEntidades = dadosDoPedido.itensPedido.map((itemPedido) => {
       const itemPedidoEntity = new ItemPedidoEntity();
@@ -30,11 +30,15 @@ export class PedidoService {
       itemPedidoEntity.precoVenda = 10;
       itemPedidoEntity.quantidade = itemPedido.quantidade;
 
-      valorTotal += itemPedidoEntity.precoVenda * itemPedido.quantidade
+      // valorTotal += itemPedidoEntity.precoVenda * itemPedido.quantidade
 
       return itemPedidoEntity;
 
     })
+
+    const valorTotal = itensPedidoEntidades.reduce((total, itemPedido) => {
+      return total + itemPedido.precoVenda * itemPedido.quantidade
+    }, 0)
 
     pedidoEntity.valorTotal = valorTotal
     pedidoEntity.itensPedido = itensPedidoEntidades
