@@ -57,16 +57,4 @@ export class PedidoService {
       },
     });
   }
-
-  findAll() {
-    return `This action returns all pedido`;
-  }
-
-  update(id: number, _AtualizaPedidoDTO: AtualizaPedidoDTO) {
-    return `This action updates a #${id} pedido`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} pedido`;
-  }
 }
